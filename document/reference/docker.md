@@ -51,8 +51,20 @@ docker push localhost:5000/macro/eureka-server:0.0.1
 docker tag macro/eureka-server:0.0.1 localhost:5000/macro/eureka-server:0.0.1
 
 ## 使用maven构建Docker镜像
+## 构建之前，要先配置docker 插件在maven配置文件settings.xml中pluginGroups
+##### 修改maven的settings.xml配置文件，在<pluginGroups>节点中添加
+##### <pluginGroup>com.spotify</pluginGroup>
 ### 构建镜像
 - command：mvn clean package docker:build
+#### 上面的命令走不通，可以通过以下方法生成所有module的镜像
+
+- mvn clean package
+
+#### 单独构建某module的docker镜像
+- mvn clean package -pl mall-admin -am
+- mvn clean package -pl mall-portal -am
+- mvn clean package -pl mall-search -am
+
 - tip：
     Linux服务器需要开启远程api:vi /usr/lib/systemd/system/docker.service
     修改为：ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock   
